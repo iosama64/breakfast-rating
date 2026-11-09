@@ -129,9 +129,11 @@
   const clamp = t => Math.max(0, Math.min(1, t));
   // نقاط القالب: M P0 L A L B Q C D L E
   const CHECK = {P0:[66,137], A:[116,187], B:[214,89], C:[214,89], D:[214,89], E:[214,89], w:24};
-  const MARK  = {P0:[19,218], A:[19,218], B:[200,37], C:[260,-23], D:[260,80], E:[260,230], w:41};
+  const MARK  = {P0:[19,218], A:[19,218], B:[195,42], C:[225,12], D:[260,12], E:[260,230], w:41};
   const pt = p => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
-  const dOf = s => 'M' + pt(s.P0) + 'L' + pt(s.A) + 'L' + pt(s.B) + 'Q' + pt(s.C) + ' ' + pt(s.D) + 'L' + pt(s.E);
+  // جزئين: الصح والخط المائل بزوايا دائرية، والانثناء للأسفل بزاوية حادة مثل الشعار
+  const d1 = s => 'M' + pt(s.P0) + 'L' + pt(s.A) + 'L' + pt(s.B);
+  const d2 = s => 'M' + pt(s.B) + 'Q' + pt(s.C) + ' ' + pt(s.D) + 'L' + pt(s.E);
   const mix = (p, q, t) => [lerp(p[0], q[0], t), lerp(p[1], q[1], t)];
 
   function buildLogoAnim(){
@@ -140,13 +142,15 @@
     const cm = mk('clipPath', {id: 'clipMark'}, defs); mk('rect', {x: 0, y: 0, width: 281, height: 208}, cm);
     const ca = mk('clipPath', {id: 'clipArc'}, defs); mk('rect', {x: 0, y: 0, width: 281, height: 294}, ca);
     const gm = mk('g', {'clip-path': 'url(#clipMark)'}, svg);
-    const mark = mk('path', {d: dOf(CHECK), fill: 'none', stroke: 'currentColor', 'stroke-width': CHECK.w,
+    const mark = mk('path', {d: d1(CHECK), fill: 'none', stroke: 'currentColor', 'stroke-width': CHECK.w,
       'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1}, gm);
+    const bend = mk('path', {d: d2(CHECK), fill: 'none', stroke: 'currentColor', 'stroke-width': CHECK.w,
+      'stroke-linecap': 'round', 'stroke-linejoin': 'miter', 'stroke-miterlimit': 2, opacity: 0}, gm);
     const ga = mk('g', {'clip-path': 'url(#clipArc)'}, svg);
     const arc = mk('path', {d: 'M301 233.3Q140.5 316.8 -20 233.3', fill: 'none', stroke: 'currentColor', 'stroke-width': 40,
       pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1}, ga);
     const fin = mk('path', {d: LOGO_D, fill: 'currentColor', opacity: 0}, svg);
-    return {svg, mark, arc, fin, gm, ga};
+    return {svg, mark, bend, arc, fin, gm, ga};
   }
 
   const SPEED = 1.5; // سرعة الأنيميشن: ١ = الأصلية، أكبر = أسرع
@@ -172,9 +176,10 @@
           P0: mix(CHECK.P0, MARK.P0, t1), A: mix(CHECK.A, MARK.A, t1), B: B,
           C: mix(B, MARK.C, t2), D: mix(B, MARK.D, t2), E: mix(B, MARK.E, t2)
         };
-        a.mark.setAttribute('d', dOf(s));
-        a.mark.setAttribute('stroke-width', lerp(CHECK.w, MARK.w, t1));
-        if (m >= 1){ a.mark.setAttribute('stroke-linecap', 'butt'); a.mark.setAttribute('stroke-linejoin', 'miter'); }
+        const w = lerp(CHECK.w, MARK.w, t1);
+        a.mark.setAttribute('d', d1(s)); a.mark.setAttribute('stroke-width', w);
+        a.bend.setAttribute('d', d2(s)); a.bend.setAttribute('stroke-width', w);
+        a.bend.setAttribute('opacity', 1);
       }
       // ٣) رسم القوس
       a.arc.setAttribute('stroke-dashoffset', 1 - ease(clamp((ms - 1200) / 500)));
