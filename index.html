@@ -10,7 +10,7 @@
 <style>
   :root{
     --bg:#F7F2EC; --card:#FFFFFF; --ink:#2B211C; --muted:#7A6A60;
-    --line:#E8DED4; --brand:#25120C; --accent:#C8873A; --accent-soft:#F6E7D3;
+    --line:#E8DED4; --brand:#25120C; --accent:#C8873A; --accent-soft:#F6E7D3; --brand-bg:#F7E7D7;
     --ok:#2F7D5B; --err:#B3412F;
   }
   *{box-sizing:border-box}
@@ -61,6 +61,10 @@
   .state .icon.logo-icon svg{width:auto;height:72px;stroke:none;fill:currentColor}
   .state p{color:var(--muted);margin:0}
   .hidden{display:none}
+  html.end, body.end{background:var(--brand-bg)}
+  .anim{display:block;height:84px;width:auto;margin:0 auto 18px;color:var(--brand);overflow:hidden}
+  .fade{opacity:0;transform:translateY(6px);transition:opacity .45s ease,transform .45s ease}
+  .fade.in{opacity:1;transform:none}
 </style>
 </head>
 <body>
@@ -105,10 +109,98 @@
   let state = [];
   const HINTS = ['', 'ما عجبني', 'عادي', 'جيد', 'حلو', 'ممتاز'];
   const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.7 6.3.9-4.55 4.43 1.07 6.27L12 17.13 6.38 20.1l1.07-6.27L2.9 9.4l6.3-.9z"/></svg>';
-  const LOGO = '<svg viewBox="0 0 281 294" aria-hidden="true"><path fill="currentColor" d="M0 222.0L0 262.2L0.5 263.8L4.4 265.0L7.8 267.0L11.9 268.1L13.5 269.5L18 270.8L21.5 272.5L25.9 273.6L27.5 274.9L33.5 276.2L35.5 277.6L42 279.0L44 280.2L50.1 281.5L54.2 283.1L61.5 284.4L64.6 285.8L73.9 287.1L78.5 288.6L89 289.9L92.9 291.0L111.4 292.5L118.5 293.8L147.6 294.2L165.6 293.5L169.9 292.5L189 290.9L192 289.9L205.1 288.1L207.2 287.1L217.1 285.6L219.4 284.4L226.8 283.1L230.2 281.6L237.2 280.2L238.4 279.2L245.1 277.8L247.4 276.4L253.2 275.0L254.8 273.9L261 272.1L262.5 270.9L267.2 269.6L268.6 268.5L274 266.8L276.1 265.2L280.4 264.0L280.8 263.5L280.9 224.4L280.4 221.5L279.1 221.6L275 224.0L271.5 225.2L269.8 226.6L266.8 227.6L264.2 229.2L260.5 230.4L258.9 231.8L254.5 233.0L253.1 234.1L246.5 236.2L245.4 237.2L240.4 238.5L237.4 240.1L232.4 241.2L229.4 242.8L222.5 244.2L221.1 245.2L213.8 246.6L210 248.1L201.1 249.5L199.1 250.6L187.1 252.1L182.6 253.4L162.6 255.0L154.4 256.1L149.2 256.2L126.2 256.1L117.6 254.9L97.9 253.2L93.2 252.0L82.9 250.8L79.5 249.4L70.2 248.0L66.9 246.5L59.9 245.2L57.8 244.0L51.2 242.6L49.2 241.4L43.4 240.0L41.2 238.6L35.4 237.1L33.8 235.9L28.8 234.4L26.9 233.1L22.2 231.8L20.4 230.2L16.1 229.0L14.6 227.6L11.1 226.5L9.1 225.0L5.1 223.6L4 222.4L1.2 221.2L0.2 221.4ZM280.6 0.4L242.4 0.0L236 0.4L231.9 1.6L225.5 2.4L222.1 3.1L220.1 4.4L214.5 5.8L212.8 7.1L208.4 8.4L207.1 9.6L203.5 10.9L201.8 12.4L198.1 13.9L196.5 15.5L194.5 16.2L193.4 17.6L189.9 19.4L188.4 21.1L186.6 21.9L185.5 23.5L183.6 24.5L183.1 25.6L181.4 26.8L180.5 28.2L178.5 29.6L177.6 31.1L175.9 32.2L174.8 34.0L173.1 35.0L172.2 36.5L170.5 37.6L169.4 39.4L167.6 40.5L166.8 42.0L165 43.1L164.1 44.6L162.5 45.6L161.4 47.4L159.6 48.5L158.6 50.1L157 51.1L156 52.8L153.8 54.4L152.9 55.9L151.1 57.0L150.2 58.6L149 59.1L145.1 63.6L143.5 64.6L142.5 66.2L140.8 67.4L139.6 69.1L138.4 69.9L136.8 72.0L135.5 72.6L134.4 74.4L132.6 75.5L131.6 77.1L129.9 78.2L128.8 80.0L127.2 80.9L126.1 82.6L124.5 83.6L123.5 85.2L121.9 86.2L120.6 88.1L119.1 89.0L118.2 90.4L115.9 92.2L115.4 93.4L113.8 94.4L112.6 96.1L111 97.1L109.9 98.9L108.2 99.9L107.2 101.5L105.6 102.5L104.5 104.2L102.8 105.4L101.6 107.1L100.1 108.0L99.1 109.6L97.5 110.6L96.2 112.5L94.8 113.4L93.6 115.1L92 116.1L91.1 117.5L88.8 119.4L88.4 120.4L86.6 121.5L85.5 123.2L83.9 124.2L82.8 125.9L80.6 127.5L80.1 128.6L78.6 129.5L77.5 131.2L75.9 132.2L74.6 134.1L73.2 134.9L72 136.8L70.6 137.5L69.4 139.4L67.6 140.5L66.5 142.2L65.1 143.0L64 144.6L61.8 146.4L61.1 147.6L59.6 148.5L58.4 150.4L56.2 151.9L55.4 153.4L53.5 154.6L52.8 156.0L51.6 156.5L41.6 167.0L40.4 167.6L39.4 169.4L38 170.1L33.5 175.1L32.4 175.6L31.4 177.4L29.9 178.2L25.4 183.2L24.1 183.9L23.1 185.6L21.8 186.4L20.2 188.5L18.6 189.4L18 190.6L16.1 191.9L15.2 193.4L12.9 195.2L12.1 196.6L10.5 197.5L9.8 198.9L8.2 199.9L6.4 202.2L5 203.0L4.1 204.6L2.2 205.8L1.2 207.9L58.6 208.1L59.9 207.5L89.2 177.9L90.4 177.2L92 175.1L93.4 174.2L97.2 169.9L101.4 166.2L101.9 165.2L112.2 155.4L116.2 150.9L117.5 150.1L118.9 148.2L120.4 147.2L127.1 140.0L131.1 136.5L135.1 132.0L139.2 128.4L140.6 126.5L142.1 125.5L143.4 123.8L150.2 117.4L151.4 115.8L158.2 109.4L162 105.1L166.4 101.2L167.2 99.9L169.2 98.4L172.9 94.2L177.4 90.2L181.1 86.0L182.4 85.2L183.9 83.2L185.1 82.6L185.6 81.6L194.5 72.8L196 71.9L200.2 67.1L201.5 66.6L203.4 64.2L204.2 64.0L205.8 62.0L207.2 61.4L208.6 59.4L210 58.8L214.4 54.4L220.4 50.2L221.9 48.5L224 47.6L225.1 46.1L235.4 40.2L238.8 39.8L239.5 40.8L239.4 207.4L240.2 208.1L280.5 208.0L280.9 207.1Z"/></svg>';
+  const LOGO_D = 'M0 222.0L0 262.2L0.5 263.8L4.4 265.0L7.8 267.0L11.9 268.1L13.5 269.5L18 270.8L21.5 272.5L25.9 273.6L27.5 274.9L33.5 276.2L35.5 277.6L42 279.0L44 280.2L50.1 281.5L54.2 283.1L61.5 284.4L64.6 285.8L73.9 287.1L78.5 288.6L89 289.9L92.9 291.0L111.4 292.5L118.5 293.8L147.6 294.2L165.6 293.5L169.9 292.5L189 290.9L192 289.9L205.1 288.1L207.2 287.1L217.1 285.6L219.4 284.4L226.8 283.1L230.2 281.6L237.2 280.2L238.4 279.2L245.1 277.8L247.4 276.4L253.2 275.0L254.8 273.9L261 272.1L262.5 270.9L267.2 269.6L268.6 268.5L274 266.8L276.1 265.2L280.4 264.0L280.8 263.5L280.9 224.4L280.4 221.5L279.1 221.6L275 224.0L271.5 225.2L269.8 226.6L266.8 227.6L264.2 229.2L260.5 230.4L258.9 231.8L254.5 233.0L253.1 234.1L246.5 236.2L245.4 237.2L240.4 238.5L237.4 240.1L232.4 241.2L229.4 242.8L222.5 244.2L221.1 245.2L213.8 246.6L210 248.1L201.1 249.5L199.1 250.6L187.1 252.1L182.6 253.4L162.6 255.0L154.4 256.1L149.2 256.2L126.2 256.1L117.6 254.9L97.9 253.2L93.2 252.0L82.9 250.8L79.5 249.4L70.2 248.0L66.9 246.5L59.9 245.2L57.8 244.0L51.2 242.6L49.2 241.4L43.4 240.0L41.2 238.6L35.4 237.1L33.8 235.9L28.8 234.4L26.9 233.1L22.2 231.8L20.4 230.2L16.1 229.0L14.6 227.6L11.1 226.5L9.1 225.0L5.1 223.6L4 222.4L1.2 221.2L0.2 221.4ZM280.6 0.4L242.4 0.0L236 0.4L231.9 1.6L225.5 2.4L222.1 3.1L220.1 4.4L214.5 5.8L212.8 7.1L208.4 8.4L207.1 9.6L203.5 10.9L201.8 12.4L198.1 13.9L196.5 15.5L194.5 16.2L193.4 17.6L189.9 19.4L188.4 21.1L186.6 21.9L185.5 23.5L183.6 24.5L183.1 25.6L181.4 26.8L180.5 28.2L178.5 29.6L177.6 31.1L175.9 32.2L174.8 34.0L173.1 35.0L172.2 36.5L170.5 37.6L169.4 39.4L167.6 40.5L166.8 42.0L165 43.1L164.1 44.6L162.5 45.6L161.4 47.4L159.6 48.5L158.6 50.1L157 51.1L156 52.8L153.8 54.4L152.9 55.9L151.1 57.0L150.2 58.6L149 59.1L145.1 63.6L143.5 64.6L142.5 66.2L140.8 67.4L139.6 69.1L138.4 69.9L136.8 72.0L135.5 72.6L134.4 74.4L132.6 75.5L131.6 77.1L129.9 78.2L128.8 80.0L127.2 80.9L126.1 82.6L124.5 83.6L123.5 85.2L121.9 86.2L120.6 88.1L119.1 89.0L118.2 90.4L115.9 92.2L115.4 93.4L113.8 94.4L112.6 96.1L111 97.1L109.9 98.9L108.2 99.9L107.2 101.5L105.6 102.5L104.5 104.2L102.8 105.4L101.6 107.1L100.1 108.0L99.1 109.6L97.5 110.6L96.2 112.5L94.8 113.4L93.6 115.1L92 116.1L91.1 117.5L88.8 119.4L88.4 120.4L86.6 121.5L85.5 123.2L83.9 124.2L82.8 125.9L80.6 127.5L80.1 128.6L78.6 129.5L77.5 131.2L75.9 132.2L74.6 134.1L73.2 134.9L72 136.8L70.6 137.5L69.4 139.4L67.6 140.5L66.5 142.2L65.1 143.0L64 144.6L61.8 146.4L61.1 147.6L59.6 148.5L58.4 150.4L56.2 151.9L55.4 153.4L53.5 154.6L52.8 156.0L51.6 156.5L41.6 167.0L40.4 167.6L39.4 169.4L38 170.1L33.5 175.1L32.4 175.6L31.4 177.4L29.9 178.2L25.4 183.2L24.1 183.9L23.1 185.6L21.8 186.4L20.2 188.5L18.6 189.4L18 190.6L16.1 191.9L15.2 193.4L12.9 195.2L12.1 196.6L10.5 197.5L9.8 198.9L8.2 199.9L6.4 202.2L5 203.0L4.1 204.6L2.2 205.8L1.2 207.9L58.6 208.1L59.9 207.5L89.2 177.9L90.4 177.2L92 175.1L93.4 174.2L97.2 169.9L101.4 166.2L101.9 165.2L112.2 155.4L116.2 150.9L117.5 150.1L118.9 148.2L120.4 147.2L127.1 140.0L131.1 136.5L135.1 132.0L139.2 128.4L140.6 126.5L142.1 125.5L143.4 123.8L150.2 117.4L151.4 115.8L158.2 109.4L162 105.1L166.4 101.2L167.2 99.9L169.2 98.4L172.9 94.2L177.4 90.2L181.1 86.0L182.4 85.2L183.9 83.2L185.1 82.6L185.6 81.6L194.5 72.8L196 71.9L200.2 67.1L201.5 66.6L203.4 64.2L204.2 64.0L205.8 62.0L207.2 61.4L208.6 59.4L210 58.8L214.4 54.4L220.4 50.2L221.9 48.5L224 47.6L225.1 46.1L235.4 40.2L238.8 39.8L239.5 40.8L239.4 207.4L240.2 208.1L280.5 208.0L280.9 207.1Z';
+  const LOGO = '<svg viewBox="0 0 281 294" aria-hidden="true"><path fill="currentColor" d="' + LOGO_D + '"/></svg>';
   const ICON_OK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const ICON_INFO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>';
 
+  // أنيميشن الشكر: ✓ ينرسم، يمتد طرفه وينثني ويتحول لشكل الشعار، ثم ينرسم القوس تحته
+  const NS = 'http://www.w3.org/2000/svg';
+  function mk(tag, attrs, parent){
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  const clamp = t => Math.max(0, Math.min(1, t));
+  // نقاط القالب: M P0 L A L B Q C D L E
+  const CHECK = {P0:[66,137], A:[116,187], B:[214,89], C:[214,89], D:[214,89], E:[214,89], w:24};
+  const MARK  = {P0:[19,218], A:[19,218], B:[200,37], C:[260,-23], D:[260,80], E:[260,230], w:41};
+  const pt = p => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
+  const dOf = s => 'M' + pt(s.P0) + 'L' + pt(s.A) + 'L' + pt(s.B) + 'Q' + pt(s.C) + ' ' + pt(s.D) + 'L' + pt(s.E);
+  const mix = (p, q, t) => [lerp(p[0], q[0], t), lerp(p[1], q[1], t)];
+
+  function buildLogoAnim(){
+    const svg = mk('svg', {viewBox: '0 0 281 294', class: 'anim', 'aria-hidden': 'true'});
+    const defs = mk('defs', {}, svg);
+    const cm = mk('clipPath', {id: 'clipMark'}, defs); mk('rect', {x: 0, y: 0, width: 281, height: 208}, cm);
+    const ca = mk('clipPath', {id: 'clipArc'}, defs); mk('rect', {x: 0, y: 0, width: 281, height: 294}, ca);
+    const gm = mk('g', {'clip-path': 'url(#clipMark)'}, svg);
+    const mark = mk('path', {d: dOf(CHECK), fill: 'none', stroke: 'currentColor', 'stroke-width': CHECK.w,
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1}, gm);
+    const ga = mk('g', {'clip-path': 'url(#clipArc)'}, svg);
+    const arc = mk('path', {d: 'M301 233.3Q140.5 316.8 -20 233.3', fill: 'none', stroke: 'currentColor', 'stroke-width': 40,
+      pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1}, ga);
+    const fin = mk('path', {d: LOGO_D, fill: 'currentColor', opacity: 0}, svg);
+    return {svg, mark, arc, fin, gm, ga};
+  }
+
+  function playLogoAnim(a, onText){
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce){
+      a.gm.style.display = 'none'; a.ga.style.display = 'none'; a.fin.setAttribute('opacity', 1);
+      onText(); return;
+    }
+    const T0 = performance.now();
+    let textShown = false;
+    function frame(now){
+      const ms = now - T0;
+      // ١) رسم الصح
+      a.mark.setAttribute('stroke-dashoffset', 1 - ease(clamp(ms / 450)));
+      // ٢) التحول للشعار
+      const m = clamp((ms - 650) / 750);
+      if (m > 0){
+        a.mark.removeAttribute('stroke-dasharray');
+        const t1 = ease(clamp(m / .7)), t2 = ease(clamp((m - .3) / .7));
+        const B = mix(CHECK.B, MARK.B, t1);
+        const s = {
+          P0: mix(CHECK.P0, MARK.P0, t1), A: mix(CHECK.A, MARK.A, t1), B: B,
+          C: mix(B, MARK.C, t2), D: mix(B, MARK.D, t2), E: mix(B, MARK.E, t2)
+        };
+        a.mark.setAttribute('d', dOf(s));
+        a.mark.setAttribute('stroke-width', lerp(CHECK.w, MARK.w, t1));
+        if (m >= 1){ a.mark.setAttribute('stroke-linecap', 'butt'); a.mark.setAttribute('stroke-linejoin', 'miter'); }
+      }
+      // ٣) رسم القوس
+      a.arc.setAttribute('stroke-dashoffset', 1 - ease(clamp((ms - 1200) / 500)));
+      if (!textShown && ms > 1250){ textShown = true; onText(); }
+      // ٤) الشعار الدقيق يحل محل الرسم
+      const f = clamp((ms - 1700) / 250);
+      a.fin.setAttribute('opacity', f);
+      if (f >= 1){ a.gm.style.display = 'none'; a.ga.style.display = 'none'; }
+      else requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function endPage(){
+    document.documentElement.classList.add('end');
+    document.body.classList.add('end');
+  }
+
+  function showThanks(){
+    showMessage('', 'شكرًا لك', 'وصلنا تقييمك، ورأيك بيساعدنا نطوّر المنيو.');
+    endPage();
+    const icon = document.getElementById('msg-icon');
+    icon.className = ''; icon.innerHTML = '';
+    const title = document.getElementById('msg-title'), text = document.getElementById('msg-text');
+    title.classList.add('fade'); text.classList.add('fade');
+    const a = buildLogoAnim();
+    icon.appendChild(a.svg);
+    playLogoAnim(a, () => { title.classList.add('in'); setTimeout(() => text.classList.add('in'), 120); });
+  }
 
   function el(tag, attrs, text){
     const n = document.createElement(tag);
@@ -177,6 +269,7 @@
 
   function init(){
     if (DATA.status === 'done'){
+      endPage();
       return showMessage(LOGO, 'شكرًا لك', 'استلمنا تقييمك', true);
     }
     if (DATA.status !== 'ok' || !DATA.items.length){
@@ -203,7 +296,7 @@
         .then(r => r.json())
         .then(res => {
           if (res && (res.status === 'ok' || res.status === 'done')){
-            showMessage(ICON_OK, 'شكرًا لك', 'وصلنا تقييمك، ورأيك بيساعدنا نطوّر المنيو.');
+            showThanks();
           } else if (res && res.status === 'missing'){
             err.textContent = 'فضلاً قيّم كل الأصناف بالنجوم.';
             btn.textContent = 'أرسل التقييم'; updateButton();
